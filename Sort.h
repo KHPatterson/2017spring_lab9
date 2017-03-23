@@ -4,7 +4,7 @@
 template < class T >
 class Sort
 {
-   private: 
+   private:
       static void _selectionSort(T** items, int numItems, int (*compare) (T* one, T* two));
       static void _mergeSort(T** items, int first, int last, int (*compare) (T* one, T* two));
       static void merge(T** items, int first, int mid, int last, int (*compare) (T* one, T* two));
@@ -51,7 +51,6 @@ template < class T >
 void Sort<T>::_quickSort(T** items, int first, int last, int (*compare) (T* one, T* two))
 {
    int pivotIndex;
-
    //DO THIS
    //make the necessary partition and recursive calls for quick sort
    if (first < last)
@@ -67,8 +66,8 @@ void Sort<T>::_quickSort(T** items, int first, int last, int (*compare) (T* one,
 
 
 
-   }  
-}  
+   }
+}
 
 template < class T >
 int Sort<T>::partition(T** items, int first, int last, int (*compare) (T* one, T* two))
@@ -77,12 +76,10 @@ int Sort<T>::partition(T** items, int first, int last, int (*compare) (T* one, T
    //complete the partition method (Lomuto partition)
 
    //temp is used to swap elements in the array
-   T* temp; 
+   T* temp;
 
-   //initially, choosePivot does nothing           
-   choosePivot(items, first, last); 
-
-
+   //initially, choosePivot does nothing
+   choosePivot(items, first, last);
 
 
 
@@ -97,7 +94,9 @@ int Sort<T>::partition(T** items, int first, int last, int (*compare) (T* one, T
 
 
 
-     
+
+
+
 }
 
 template < class T >
@@ -152,32 +151,32 @@ int Sort<T>::binarySearch(T** items, int numItems, T* item, int (*compare) (T* o
 }
 
 template < class T >
-int Sort<T>::binarySearch(T** items, int numItems, T* item, int first, int last, int (*compare) (T* one, T* two)) 
+int Sort<T>::binarySearch(T** items, int numItems, T* item, int first, int last, int (*compare) (T* one, T* two))
 {
    // reaches the base case much faster
-   if (first > last) 
+   if (first > last)
    {
       return -1;      // value not in original array (base case #1)
-   } 
+   }
 
    int index;
    int mid = first + (last - first)/2;
    int comp = (*compare) (item, items[mid]);
-   if (comp == 0) 
-   { 
+   if (comp == 0)
+   {
       index = mid;  // value found at search[mid] (base case #2)
-   } 
-   else if (comp < 0) 
+   }
+   else if (comp < 0)
    {
       //making these method calls is extra overhead that recursion requires
       //as it is easy and readable to write a binary search using a loop, that is the preferred implementation
       index = binarySearch(items, numItems, item, first, mid - 1, compare);
-   } 
-   else 
+   }
+   else
    {
       index = binarySearch(items, numItems, item, mid + 1, last, compare);
-   } 
-  
+   }
+
    return index;  //returns the index up through the chain
 }
 
@@ -236,7 +235,7 @@ T** Sort<T>::mergeSort(T** items, int numItems, int (*compare) (T* one, T* two))
 template < class T >
 void Sort<T>::_mergeSort(T** items, int first, int last, int (*compare) (T* one, T* two))
 {
-   if (first < last) 
+   if (first < last)
    {
       // sort each half
       int mid = first + (last - first)/2;  //(first + last)/2;   // index of midpoint
@@ -244,20 +243,20 @@ void Sort<T>::_mergeSort(T** items, int first, int last, int (*compare) (T* one,
       // sort left half sort[first..mid]
       _mergeSort(items, first, mid, compare);
 
-      // sort right half sort[mid + 1..last]   
-      _mergeSort(items, mid + 1, last, compare);  
- 
+      // sort right half sort[mid + 1..last]
+      _mergeSort(items, mid + 1, last, compare);
+
       // merge the two halves
       merge(items, first, mid, last, compare);
-   } 
-}  
+   }
+}
 
 template < class T >
-void Sort<T>::merge(T** items, int first, int mid, int last, int (*compare) (T* one, T* two)) 
+void Sort<T>::merge(T** items, int first, int mid, int last, int (*compare) (T* one, T* two))
 {
    //tempArray
    T** temp = new T*[last - first + 1];
-    
+
    // initialize the local indexes to indicate the subarrays
    int first1 = first;    // beginning of first subarray
    int last1  = mid;      // end of first subarray
@@ -266,33 +265,33 @@ void Sort<T>::merge(T** items, int first, int mid, int last, int (*compare) (T* 
 
    // while both subarrays are not empty, copy the
    // smaller item into the temporary array
-   int index = 0;                    
+   int index = 0;
 
-   while ((first1 <= last1) && (first2 <= last2)) 
+   while ((first1 <= last1) && (first2 <= last2))
    {
       if ((*compare) (items[first1], items[first2]) <= 0)  //careful here for stable sorting
       {
          temp[index] = items[first1];
          first1++;
       }
-      else 
+      else
       {
          temp[index] = items[first2];
          first2++;
-      }  
+      }
 
       index++;
-   } 
+   }
 
    // finish off the nonempty subarray
 
    // finish off the first subarray, if necessary
-   while (first1 <= last1) 
+   while (first1 <= last1)
    {
       temp[index] = items[first1];
       first1++;
       index++;
-   }  
+   }
 
    // finish off the second subarray, if necessary
    while (first2 <= last2)
@@ -300,16 +299,16 @@ void Sort<T>::merge(T** items, int first, int mid, int last, int (*compare) (T* 
       temp[index] = items[first2];
       first2++;
       index++;
-   }  
+   }
 
    // copy the result back into the original array
-   for (index = 0; index <= last - first; index++) 
+   for (index = 0; index <= last - first; index++)
    {
       items[index + first] = temp[index];
    }
 
-   delete[] temp;  
-}  
+   delete[] temp;
+}
 
 template < class T >
 T** Sort<T>::insertionSort(T** items, int numItems, int (*compare) (T* one, T* two))
@@ -341,7 +340,7 @@ void Sort<T>::_insertionSort(T** items, int numItems, int (*compare) (T* one, T*
          items[position] = items[position - 1];
          position--;
       }
-            
+
       items[position] = temp;
    }
 }
@@ -375,7 +374,7 @@ void Sort<T>::_insertionBinarySort(T** items, int numItems, int (*compare) (T* o
       {
          items[i] = items[i - 1];
       }
-            
+
       items[position] = temp;
    }
 }
@@ -399,7 +398,7 @@ int Sort<T>::insertLocation(T** items, T* item, int last, int (*compare) (T* one
          last = mid - 1;
          mid = first + (last - first)/2;
       }
-      else 
+      else
       {
          first = mid + 1;
          mid = first + (last - first)/2;
@@ -410,4 +409,3 @@ int Sort<T>::insertLocation(T** items, T* item, int last, int (*compare) (T* one
 }
 
 #endif
-
